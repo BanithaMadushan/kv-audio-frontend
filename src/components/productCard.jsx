@@ -1,7 +1,12 @@
-export default function ProductCard() {
-    return (
+import "./productCard.css";
+
+export default function ProductCard(props){
+
+    console.log(props);
+
+    return(
         <div>
-            <h1>dyffusvfjsf</h1>
+        
         </div>
-    );
+    )
 }
