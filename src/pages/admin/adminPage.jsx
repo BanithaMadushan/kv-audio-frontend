@@ -5,6 +5,7 @@ import { CiBookmarkCheck } from "react-icons/ci";
 import { Link, Route, Routes } from "react-router-dom";
 import AdminItems from "./adminItems";
 import AddItem from "./addItem";
+import UpdateItem from "./updateItem";
 
 export default function AdminPage(){
     return(
@@ -39,6 +40,7 @@ export default function AdminPage(){
           <Route path="/items" element={<AdminItems/>}/>
           <Route path="/users" element={<h1>Users</h1>}/>
           <Route path="/items/add" element={<AddItem/>}/>
+          <Route path="/items/edit" element={<UpdateItem/>}/>
         </Routes>
 
       </div>
