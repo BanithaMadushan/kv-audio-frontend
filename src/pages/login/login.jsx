@@ -22,6 +22,8 @@ export default function LoginPage(){
         console.log(res);
         toast.success("Login successful");
         const user = res.data.user;
+        localStorage.setItem("token", res.data.token);
+
         if(user.role === "admin"){
             navigate("/admin");
         }else{
@@ -65,7 +67,7 @@ export default function LoginPage(){
 
                 />
 
-                <button className="w-[300px] h-[50px] bg-yellow-600 text-black text-2xl rounded-xl my-8">Login
+                <button className="w-[300px] h-[50px] bg-yellow-600 text-black text-2xl rounded-xl my-8 cursor-pointer">Login
 
                 </button>
             </div>
