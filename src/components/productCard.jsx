@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+
+
 export default function ProductCard({ item }) {
     const {
       name,
@@ -94,12 +97,12 @@ export default function ProductCard({ item }) {
               {availability ? "Add to Cart" : "Unavailable"}
             </button>
   
-            <button
-              type="button"
+            <Link
+              to={"/product/"+item.key}
               className="rounded-xl border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50 active:scale-[0.99] transition"
             >
               Details
-            </button>
+            </Link>
           </div>
         </div>
       </div>

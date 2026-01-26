@@ -11,10 +11,24 @@ export default function UpdateItem() {
   const [productCategory, setProductCategory] = useState(location.state.category);
   const [productDimension, setProductDimension] = useState(location.state.dimensions);
   const [productDescription, setProductDescription] = useState(location.state.description);
+  const [productImage, setProductImages] = useState([]);
   const navigate = useNavigate();
   
 
-  async function handleAddItem(){
+  async function handleUpdateItem(){
+
+    let updatingImages = location.state.images;
+
+    if(setProductImages.length > 0){
+      const promises = [];
+
+        for(let i = 0; i < productImage.length; i++) {
+          const promise = mediaUpload(productImage[i]);
+          promises.push(promise);
+        }
+
+        updatingImages = await Promise.all(promises);
+    }
         console.log(productKey, productName, productPrice, productCategory, productDimension, productDescription);
         const token = localStorage.getItem("token");
 
@@ -26,7 +40,8 @@ export default function UpdateItem() {
                 price : productPrice,
                 category : productCategory, 
                 dimensions : productDimension,
-                description : productDescription
+                description : productDescription,
+                image : updatingImages
         }, {
             headers : {
                 Authorization : "Bearer " + token
@@ -108,8 +123,11 @@ export default function UpdateItem() {
             onChange={(e) => setProductDescription(e.target.value)}
         />
 
+        <input type="file" multiple onChange={(e)=>{setProductImages(e.target.files)}}>
+        </input>
+
         {/* Add Button */}
-        <button onClick={handleAddItem} className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
+        <button onClick={handleUpdateItem} className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
         >
         Update
         </button>
