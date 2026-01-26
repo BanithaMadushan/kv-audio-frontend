@@ -10,12 +10,33 @@ export default function AddItem() {
   const [productCategory, setProductCategory] = useState("audio");
   const [productDimension, setProductDimension] = useState("");
   const [productDescription, setProductDescription] = useState("");
+  const [productImage, setProductImages] = useState([]);
   const navigate = useNavigate();
   async function handleAddItem(){
+
+        const promises = [];
+
+        for(let i = 0; i < productImage.length; i++) {
+          const promise = mediaUpload(productImage[i]);
+          promises.push(promise);
+        }
+
+        
+
         console.log(productKey, productName, productPrice, productCategory, productDimension, productDescription);
         const token = localStorage.getItem("token");
 
         if(token){
+
+          //Promise.all(promises).then((result) => {
+          //  console.log(result);
+          //}).catch((err) => {
+          //  toast.error(err);
+          //});
+
+          const imageUrls = await Promise.all(promises);
+
+          
 
            try{ 
            const result =await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/products`,{
@@ -24,7 +45,8 @@ export default function AddItem() {
                 price : productPrice,
                 category : productCategory, 
                 dimensions : productDimension,
-                description : productDescription
+                description : productDescription,
+                image : imageUrls,
         }, {
             headers : {
                 Authorization : "Bearer " + token
@@ -104,6 +126,8 @@ export default function AddItem() {
             value={productDescription}
             onChange={(e) => setProductDescription(e.target.value)}
         />
+        <input type="file" multiple onChange={(e)=>{setProductImages(e.target.files)}}>
+        </input>
 
         {/* Add Button */}
         <button onClick={handleAddItem} className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
